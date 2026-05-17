@@ -314,24 +314,23 @@ canvas.addEventListener('touchend', () => drawing = false);
 
 function clearSig() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
 
-// GOOGLE FORMS URL — reemplazar con tu link real
-const FORM_URL = "https://docs.google.com/forms/d/e/TU_FORM_ID/formResponse";
+// GOOGLE FORMS URL
+const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeD7FaCUr4fP9BomkQ52e5iHk0Uymh8CIQBGthRjjdGVYmZhA/formResponse";
 
-// IDs de los campos del Google Form — reemplazar con los IDs reales
 const FIELD_IDS = {
-  nombre:          "entry.XXXXXXXXX",
-  correo:          "entry.XXXXXXXXX",
-  telefono:        "entry.XXXXXXXXX",
-  fecha:           "entry.XXXXXXXXX",
-  direccion:       "entry.XXXXXXXXX",
-  tecnico:         "entry.XXXXXXXXX",
-  plaga:           "entry.XXXXXXXXX",
-  nivel:           "entry.XXXXXXXXX",
-  estado:          "entry.XXXXXXXXX",
-  problema:        "entry.XXXXXXXXX",
-  tratamiento:     "entry.XXXXXXXXX",
-  productos:       "entry.XXXXXXXXX",
-  recomendaciones: "entry.XXXXXXXXX"
+  nombre:          "entry.1182326576",
+  correo:          "entry.1726102371",
+  telefono:        "entry.932558840",
+  fecha:           "entry.1904403771",
+  direccion:       "entry.510486102",
+  tecnico:         "entry.1197174929",
+  plaga:           "entry.423107858",
+  nivel:           "entry.1947994864",
+  estado:          "",
+  problema:        "entry.745026335",
+  tratamiento:     "entry.1585907571",
+  productos:       "entry.1205137732",
+  recomendaciones: "entry.881515155"
 };
 
 async function enviarReporte() {
