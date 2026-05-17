@@ -5,142 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#1D9E75">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="F. Lasama">
   <link rel="manifest" href="manifest.json">
   <title>Fumigadora Lasama</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #222; }
-
-    .app-header {
-      background: #1D9E75;
-      color: white;
-      padding: 16px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    }
+    .app-header { background: #1D9E75; color: white; padding: 16px 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
     .app-header h1 { font-size: 17px; font-weight: 600; }
     .app-header p { font-size: 12px; opacity: 0.85; margin-top: 2px; }
-
     .form-body { padding: 16px; max-width: 600px; margin: 0 auto; padding-bottom: 100px; }
-
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 14px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-    }
-    .card-title {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #1D9E75;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+    .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .card-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #1D9E75; margin-bottom: 14px; }
     .field { margin-bottom: 14px; }
     .field:last-child { margin-bottom: 0; }
     label { display: block; font-size: 12px; color: #666; margin-bottom: 5px; font-weight: 500; }
-    input, textarea, select {
-      width: 100%;
-      padding: 11px 13px;
-      border: 1.5px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 15px;
-      background: #fafafa;
-      color: #222;
-      -webkit-appearance: none;
-      transition: border-color 0.2s;
+    input[type=text], input[type=email], input[type=tel], input[type=date], textarea, select {
+      width: 100%; padding: 11px 13px; border: 1.5px solid #e0e0e0; border-radius: 8px;
+      font-size: 15px; background: #fafafa; color: #222; -webkit-appearance: none;
     }
-    input:focus, textarea:focus, select:focus {
-      outline: none;
-      border-color: #1D9E75;
-      background: white;
-    }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: #1D9E75; background: white; }
     textarea { min-height: 90px; resize: vertical; line-height: 1.5; }
     .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
     .plaga-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .plaga-item {
+    .plaga-btn {
+      padding: 10px 12px; border: 1.5px solid #e0e0e0; border-radius: 8px;
+      font-size: 14px; cursor: pointer; background: #fafafa;
       display: flex; align-items: center; gap: 8px;
-      padding: 10px 12px;
-      border: 1.5px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.15s;
-      background: #fafafa;
+      -webkit-tap-highlight-color: transparent;
     }
-    .plaga-item input[type=checkbox] { width: 16px; height: 16px; accent-color: #1D9E75; flex-shrink: 0; }
-    .plaga-item.checked { border-color: #1D9E75; background: #f0faf6; color: #1D9E75; font-weight: 500; }
-
+    .plaga-btn.on { border-color: #1D9E75; background: #f0faf6; color: #1D9E75; font-weight: 600; }
+    .chk { width: 18px; height: 18px; border: 2px solid #ccc; border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+    .plaga-btn.on .chk { background: #1D9E75; border-color: #1D9E75; color: white; }
     .sig-wrap { border: 1.5px solid #e0e0e0; border-radius: 8px; overflow: hidden; background: #fafafa; }
     .sig-canvas { display: block; width: 100%; touch-action: none; }
-    .sig-actions { display: flex; gap: 8px; margin-top: 8px; }
-    .btn-outline {
-      flex: 1; padding: 10px; border: 1.5px solid #e0e0e0; border-radius: 8px;
-      background: white; font-size: 14px; cursor: pointer; color: #555;
-    }
-    .btn-outline:active { background: #f0f0f0; }
-
-    .submit-bar {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      padding: 12px 16px;
-      background: white;
-      box-shadow: 0 -2px 12px rgba(0,0,0,0.1);
-    }
-    .btn-submit {
-      width: 100%; padding: 15px;
-      background: #1D9E75; color: white;
-      border: none; border-radius: 10px;
-      font-size: 16px; font-weight: 600;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-    }
-    .btn-submit:active { background: #178a65; }
+    .btn-outline { width: 100%; padding: 10px; border: 1.5px solid #e0e0e0; border-radius: 8px; background: white; font-size: 14px; cursor: pointer; color: #555; margin-top: 8px; }
+    .submit-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 12px 16px; background: white; box-shadow: 0 -2px 12px rgba(0,0,0,0.1); }
+    .btn-submit { width: 100%; padding: 15px; background: #1D9E75; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; }
     .btn-submit:disabled { background: #aaa; }
-
-    .success-screen {
-      display: none;
-      position: fixed; inset: 0;
-      background: white;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 32px;
-      text-align: center;
-      z-index: 200;
-    }
-    .success-screen.show { display: flex; }
-    .success-icon { font-size: 64px; margin-bottom: 16px; }
-    .success-screen h2 { font-size: 22px; color: #1D9E75; margin-bottom: 8px; }
-    .success-screen p { font-size: 15px; color: #666; margin-bottom: 24px; }
-    .btn-nuevo {
-      padding: 14px 32px;
-      background: #1D9E75; color: white;
-      border: none; border-radius: 10px;
-      font-size: 16px; font-weight: 600; cursor: pointer;
-    }
-
+    .overlay { display: none; position: fixed; inset: 0; background: white; flex-direction: column; align-items: center; justify-content: center; padding: 28px; text-align: center; z-index: 300; }
+    .overlay.show { display: flex; }
+    .overlay h2 { font-size: 22px; color: #1D9E75; margin: 12px 0 8px; }
+    .overlay p { font-size: 14px; color: #666; margin-bottom: 20px; line-height: 1.5; }
+    .btn-green { display: block; width: 100%; padding: 16px; background: #1D9E75; color: white; border-radius: 10px; font-size: 16px; font-weight: 700; text-align: center; text-decoration: none; margin-bottom: 10px; border: none; cursor: pointer; }
+    .btn-gray { width: 100%; padding: 12px; background: #f0f0f0; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; margin-bottom: 10px; }
+    .btn-outline2 { width: 100%; padding: 12px; background: white; color: #1D9E75; border: 2px solid #1D9E75; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; }
     .required { color: #e53935; }
-    .orden-badge {
-      display: inline-block;
-      background: #f0faf6;
-      color: #1D9E75;
-      border: 1px solid #1D9E75;
-      border-radius: 99px;
-      padding: 3px 12px;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 14px;
-    }
   </style>
 </head>
 <body>
@@ -151,53 +61,31 @@
 </div>
 
 <div class="form-body">
-
   <div class="card">
     <div class="card-title">👤 Datos del cliente</div>
-    <div class="field">
-      <label>Nombre del cliente <span class="required">*</span></label>
-      <input type="text" id="nombre" placeholder="Ej. Juan Pérez">
-    </div>
-    <div class="field">
-      <label>Correo electrónico <span class="required">*</span></label>
-      <input type="email" id="correo" placeholder="cliente@correo.com">
-    </div>
+    <div class="field"><label>Nombre del cliente <span class="required">*</span></label><input type="text" id="nombre" placeholder="Ej. Juan Pérez"></div>
+    <div class="field"><label>Correo electrónico <span class="required">*</span></label><input type="email" id="correo" placeholder="cliente@correo.com"></div>
     <div class="row2">
-      <div class="field">
-        <label>Teléfono</label>
-        <input type="tel" id="telefono" placeholder="+507 6000-0000">
-      </div>
-      <div class="field">
-        <label>Fecha de visita <span class="required">*</span></label>
-        <input type="date" id="fecha">
-      </div>
+      <div class="field"><label>Teléfono</label><input type="tel" id="telefono" placeholder="+507 6000-0000"></div>
+      <div class="field"><label>Fecha de visita <span class="required">*</span></label><input type="date" id="fecha"></div>
     </div>
-    <div class="field">
-      <label>Dirección</label>
-      <input type="text" id="direccion" placeholder="Calle, número, barrio">
-    </div>
-    <div class="field">
-      <label>Técnico responsable <span class="required">*</span></label>
-      <input type="text" id="tecnico" placeholder="Nombre del técnico">
-    </div>
+    <div class="field"><label>Dirección</label><input type="text" id="direccion" placeholder="Calle, número, barrio"></div>
+    <div class="field"><label>Técnico responsable <span class="required">*</span></label><input type="text" id="tecnico" placeholder="Nombre del técnico"></div>
   </div>
 
   <div class="card">
-    <div class="card-title">🐛 Tipo de plaga</div>
-    <div class="plaga-grid" id="plagas">
-      <label class="plaga-item"><input type="checkbox" value="Cucarachas"> Cucarachas</label>
-      <label class="plaga-item"><input type="checkbox" value="Ratas / Ratones"> Ratas / Ratones</label>
-      <label class="plaga-item"><input type="checkbox" value="Mosquitos"> Mosquitos</label>
-      <label class="plaga-item"><input type="checkbox" value="Hormigas"> Hormigas</label>
-      <label class="plaga-item"><input type="checkbox" value="Garrapatas"> Garrapatas</label>
-      <label class="plaga-item"><input type="checkbox" value="Termitas"> Termitas</label>
-      <label class="plaga-item"><input type="checkbox" value="Moscas"> Moscas</label>
-      <label class="plaga-item"><input type="checkbox" value="Arañas"> Arañas</label>
+    <div class="card-title">🐛 Tipo de plaga — toca para seleccionar</div>
+    <div class="plaga-grid">
+      <div class="plaga-btn" id="p1" data-v="CUCARACHA" onclick="tp('p1')"><div class="chk" id="c1"></div>Cucarachas</div>
+      <div class="plaga-btn" id="p2" data-v="RATONES" onclick="tp('p2')"><div class="chk" id="c2"></div>Ratas/Ratones</div>
+      <div class="plaga-btn" id="p3" data-v="MOSQUITOS" onclick="tp('p3')"><div class="chk" id="c3"></div>Mosquitos</div>
+      <div class="plaga-btn" id="p4" data-v="HORMIGAS" onclick="tp('p4')"><div class="chk" id="c4"></div>Hormigas</div>
+      <div class="plaga-btn" id="p5" data-v="GARRAPATAS" onclick="tp('p5')"><div class="chk" id="c5"></div>Garrapatas</div>
+      <div class="plaga-btn" id="p6" data-v="TERMITAS O COMEJEN" onclick="tp('p6')"><div class="chk" id="c6"></div>Termitas</div>
+      <div class="plaga-btn" id="p7" data-v="MOSCAS" onclick="tp('p7')"><div class="chk" id="c7"></div>Moscas</div>
+      <div class="plaga-btn" id="p8" data-v="OTROS" onclick="tp('p8')"><div class="chk" id="c8"></div>Otros</div>
     </div>
-    <div class="field" style="margin-top:10px">
-      <label>Otras plagas</label>
-      <input type="text" id="otras-plagas" placeholder="Especifica si aplica">
-    </div>
+    <div class="field" style="margin-top:10px"><label>Otras plagas</label><input type="text" id="otras" placeholder="Especifica si aplica"></div>
   </div>
 
   <div class="card">
@@ -207,14 +95,14 @@
         <label>Nivel de infestación <span class="required">*</span></label>
         <select id="nivel">
           <option value="">Seleccionar...</option>
-          <option>Leve</option>
-          <option>Moderado</option>
-          <option>Severo</option>
-          <option>Crítico</option>
+          <option>LEVE</option>
+          <option>MODERADO</option>
+          <option>SEVERE</option>
+          <option>CRITICO INFESTACION ALTA</option>
         </select>
       </div>
       <div class="field">
-        <label>Estado del servicio <span class="required">*</span></label>
+        <label>Estado</label>
         <select id="estado">
           <option value="">Seleccionar...</option>
           <option>Completado</option>
@@ -223,191 +111,127 @@
         </select>
       </div>
     </div>
-    <div class="field">
-      <label>Descripción del problema <span class="required">*</span></label>
-      <textarea id="problema" placeholder="Describe el nivel de infestación, áreas afectadas..."></textarea>
-    </div>
-    <div class="field">
-      <label>Tratamiento aplicado <span class="required">*</span></label>
-      <textarea id="tratamiento" placeholder="Método de aplicación, productos, áreas tratadas..."></textarea>
-    </div>
-    <div class="field">
-      <label>Productos usados</label>
-      <textarea id="productos" placeholder="Lista los productos aplicados..." style="min-height:60px;"></textarea>
-    </div>
-    <div class="field">
-      <label>Recomendaciones</label>
-      <textarea id="recomendaciones" placeholder="Medidas preventivas, próxima visita..." style="min-height:60px;"></textarea>
-    </div>
+    <div class="field"><label>Descripción del problema <span class="required">*</span></label><textarea id="problema" placeholder="Describe el nivel de infestación, áreas afectadas..."></textarea></div>
+    <div class="field"><label>Tratamiento aplicado <span class="required">*</span></label><textarea id="tratamiento" placeholder="Método de aplicación, áreas tratadas..."></textarea></div>
+    <div class="field"><label>Productos usados <span class="required">*</span></label><textarea id="productos" placeholder="Lista los productos aplicados..." style="min-height:60px;"></textarea></div>
+    <div class="field"><label>Recomendaciones</label><textarea id="recomendaciones" placeholder="Medidas preventivas..." style="min-height:60px;"></textarea></div>
   </div>
 
   <div class="card">
     <div class="card-title">✍️ Firma del cliente</div>
-    <p style="font-size:13px;color:#888;margin-bottom:10px;">El cliente firma con el dedo en el recuadro</p>
-    <div class="sig-wrap">
-      <canvas class="sig-canvas" id="sig" height="150"></canvas>
-    </div>
-    <div class="sig-actions">
-      <button class="btn-outline" onclick="clearSig()">🗑 Borrar firma</button>
-    </div>
+    <p style="font-size:13px;color:#888;margin-bottom:10px;">Firma con el dedo en el recuadro</p>
+    <div class="sig-wrap"><canvas class="sig-canvas" id="sig" height="150"></canvas></div>
+    <button class="btn-outline" onclick="clearSig()">🗑 Borrar firma</button>
   </div>
-
 </div>
 
 <div class="submit-bar">
-  <button class="btn-submit" id="btn-enviar" onclick="enviarReporte()">
-    📤 Enviar reporte
-  </button>
+  <button class="btn-submit" id="btnEnviar" onclick="enviar()">📤 Enviar reporte</button>
 </div>
 
-<div class="success-screen" id="success">
-  <div class="success-icon">📋</div>
+<div class="overlay" id="overlay">
+  <div style="font-size:56px">📋</div>
   <h2>¡Datos listos!</h2>
-  <p style="font-size:13px;color:#666;margin-bottom:16px;">Toca el enlace de abajo para abrir el formulario con todo pre-llenado y presiona Enviar.</p>
-  <a id="form-link" href="#" style="display:block;width:100%;padding:15px;background:#1D9E75;color:white;border-radius:10px;font-size:16px;font-weight:600;text-align:center;text-decoration:none;margin-bottom:12px;box-sizing:border-box;">📤 TOCA AQUÍ — Enviar al cliente</a>
-  <p style="font-size:11px;color:#aaa;margin-bottom:16px;">Si no abre, copia y pega el link en el navegador</p>
-  <textarea id="link-text" rows="3" style="width:100%;font-size:11px;border:1px solid #ddd;border-radius:8px;padding:8px;box-sizing:border-box;color:#555;"></textarea>
-  <button onclick="copyLink()" style="width:100%;margin-top:8px;padding:10px;background:#f5f5f5;border:1px solid #ddd;border-radius:8px;font-size:14px;cursor:pointer;margin-bottom:12px;">📋 Copiar link</button>
-  <button class="btn-nuevo" onclick="nuevoReporte()" style="background:white;color:#1D9E75;border:2px solid #1D9E75;width:100%;padding:12px;border-radius:10px;font-size:15px;cursor:pointer;">+ Nuevo reporte</button>
+  <p>Toca el botón verde para abrir el formulario con todo pre-llenado y presiona <strong>Enviar</strong> para que el PDF llegue al cliente.</p>
+  <a id="linkBtn" href="#" class="btn-green">📤 ABRIR Y ENVIAR FORMULARIO</a>
+  <button class="btn-gray" onclick="copiar()">📋 Copiar link (si no abre)</button>
+  <button class="btn-outline2" onclick="nuevo()">+ Nuevo reporte</button>
 </div>
 
 <script>
-// Fecha de hoy por defecto
 document.getElementById('fecha').valueAsDate = new Date();
 
-// Checkboxes de plaga
-document.querySelectorAll('.plaga-item').forEach(item => {
-  const cb = item.querySelector('input');
-  item.addEventListener('click', (e) => {
-    if (e.target !== cb) cb.checked = !cb.checked;
-    item.classList.toggle('checked', cb.checked);
-  });
-  cb.addEventListener('change', () => {
-    item.classList.toggle('checked', cb.checked);
-  });
-});
+var savedLink = "";
 
-// Firma con el dedo
-const canvas = document.getElementById('sig');
-const ctx = canvas.getContext('2d');
-let drawing = false;
-
-function resizeCanvas() {
-  const ratio = window.devicePixelRatio || 1;
-  const rect = canvas.parentElement.getBoundingClientRect();
-  canvas.width = rect.width * ratio;
-  canvas.height = 150 * ratio;
-  canvas.style.width = rect.width + 'px';
-  canvas.style.height = '150px';
-  ctx.scale(ratio, ratio);
-  ctx.strokeStyle = '#222';
-  ctx.lineWidth = 2.5;
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-}
-resizeCanvas();
-
-function getPos(e, canvas) {
-  const rect = canvas.getBoundingClientRect();
-  const src = e.touches ? e.touches[0] : e;
-  return { x: src.clientX - rect.left, y: src.clientY - rect.top };
+function tp(id) {
+  var el = document.getElementById(id);
+  var chk = document.getElementById('c' + id.replace('p',''));
+  var on = el.classList.toggle('on');
+  chk.textContent = on ? '✓' : '';
 }
 
-canvas.addEventListener('mousedown', e => { drawing = true; const p = getPos(e, canvas); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
-canvas.addEventListener('mousemove', e => { if (!drawing) return; const p = getPos(e, canvas); ctx.lineTo(p.x, p.y); ctx.stroke(); });
-canvas.addEventListener('mouseup', () => drawing = false);
+var canvas = document.getElementById('sig');
+var ctx = canvas.getContext('2d');
+var drawing = false;
+setTimeout(function() {
+  var r = window.devicePixelRatio || 1;
+  var w = canvas.parentElement.getBoundingClientRect().width;
+  canvas.width = w * r; canvas.height = 150 * r;
+  canvas.style.width = w + 'px'; canvas.style.height = '150px';
+  ctx.scale(r, r); ctx.strokeStyle = '#222'; ctx.lineWidth = 2.5; ctx.lineCap = 'round';
+}, 200);
+function gp(e) { var r = canvas.getBoundingClientRect(); var s = e.touches ? e.touches[0] : e; return {x: s.clientX - r.left, y: s.clientY - r.top}; }
+canvas.addEventListener('mousedown', function(e) { drawing=true; var p=gp(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); });
+canvas.addEventListener('mousemove', function(e) { if(!drawing) return; var p=gp(e); ctx.lineTo(p.x,p.y); ctx.stroke(); });
+canvas.addEventListener('mouseup', function() { drawing=false; });
+canvas.addEventListener('touchstart', function(e) { e.preventDefault(); drawing=true; var p=gp(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); }, {passive:false});
+canvas.addEventListener('touchmove', function(e) { e.preventDefault(); if(!drawing) return; var p=gp(e); ctx.lineTo(p.x,p.y); ctx.stroke(); }, {passive:false});
+canvas.addEventListener('touchend', function() { drawing=false; });
+function clearSig() { ctx.clearRect(0,0,canvas.width,canvas.height); }
 
-canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; const p = getPos(e, canvas); ctx.beginPath(); ctx.moveTo(p.x, p.y); }, {passive: false});
-canvas.addEventListener('touchmove', e => { e.preventDefault(); if (!drawing) return; const p = getPos(e, canvas); ctx.lineTo(p.x, p.y); ctx.stroke(); }, {passive: false});
-canvas.addEventListener('touchend', () => drawing = false);
+function enviar() {
+  var n = document.getElementById('nombre').value.trim();
+  var c = document.getElementById('correo').value.trim();
+  var f = document.getElementById('fecha').value;
+  var t = document.getElementById('tecnico').value.trim();
+  var nv = document.getElementById('nivel').value;
+  var pr = document.getElementById('problema').value.trim();
+  var tr = document.getElementById('tratamiento').value.trim();
+  var pd = document.getElementById('productos').value.trim();
 
-function clearSig() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
-
-// GOOGLE FORMS URL
-const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeD7FaCUr4fP9BomkQ52e5iHk0Uymh8CIQBGthRjjdGVYmZhA/formResponse";
-
-const FIELD_IDS = {
-  nombre:          "entry.1182326576",
-  correo:          "entry.1726102371",
-  telefono:        "entry.932558840",
-  fecha:           "entry.1904403771",
-  direccion:       "entry.510486102",
-  tecnico:         "entry.1197174929",
-  plaga:           "entry.423107858",
-  nivel:           "entry.1947994864",
-  estado:          "",
-  problema:        "entry.745026335",
-  tratamiento:     "entry.1585907571",
-  productos:       "entry.1205137732",
-  recomendaciones: "entry.881515155"
-};
-
-async function enviarReporte() {
-  const nombre = document.getElementById('nombre').value.trim();
-  const correo = document.getElementById('correo').value.trim();
-  const fecha  = document.getElementById('fecha').value;
-  const tecnico = document.getElementById('tecnico').value.trim();
-  const nivel  = document.getElementById('nivel').value;
-  const estado = document.getElementById('estado').value;
-  const problema = document.getElementById('problema').value.trim();
-  const tratamiento = document.getElementById('tratamiento').value.trim();
-
-  if (!nombre || !correo || !fecha || !tecnico || !nivel || !estado || !problema || !tratamiento) {
-    alert('Por favor completa todos los campos obligatorios (*)');
+  if (!n||!c||!f||!t||!nv||!pr||!tr||!pd) {
+    alert('Completa todos los campos obligatorios (*)');
     return;
-  const plagasSeleccionadas = [...document.querySelectorAll('.plaga-item input:checked')].map(c => c.value);
-  const otraPlaga = document.getElementById('otras-plagas').value.trim();
-  if (otraPlaga) plagasSeleccionadas.push(otraPlaga);
+  }
 
-  const btn = document.getElementById('btn-enviar');
-  btn.disabled = true;
-  btn.textContent = '⏳ Enviando...';
+  var plagas = [];
+  for (var i=1; i<=8; i++) {
+    var el = document.getElementById('p'+i);
+    if (el.classList.contains('on')) plagas.push(el.getAttribute('data-v'));
+  }
+  var otra = document.getElementById('otras').value.trim();
+  if (otra) plagas.push(otra);
 
-  const baseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeD7FaCUr4fP9BomkQ52e5iHk0Uymh8CIQBGthRjjdGVYmZhA/viewform";
-  const params = new URLSearchParams();
-  params.append(FIELD_IDS.nombre, nombre);
-  params.append(FIELD_IDS.correo, correo);
-  params.append(FIELD_IDS.telefono, document.getElementById("telefono").value);
-  params.append(FIELD_IDS.fecha, fecha);
-  params.append(FIELD_IDS.direccion, document.getElementById("direccion").value);
-  params.append(FIELD_IDS.tecnico, tecnico);
-  plagasSeleccionadas.forEach(p => params.append(FIELD_IDS.plaga, p));
-  params.append(FIELD_IDS.nivel, nivel);
-  params.append(FIELD_IDS.problema, problema);
-  params.append(FIELD_IDS.tratamiento, tratamiento);
-  params.append(FIELD_IDS.productos, document.getElementById("productos").value);
-  params.append(FIELD_IDS.recomendaciones, document.getElementById("recomendaciones").value);
-  params.append("usp", "pp_url");
+  var base = 'https://docs.google.com/forms/d/e/1FAIpQLSeD7FaCUr4fP9BomkQ52e5iHk0Uymh8CIQBGthRjjdGVYmZhA/viewform?usp=pp_url';
+  var url = base
+    + '&entry.1182326576=' + encodeURIComponent(n)
+    + '&entry.1726102371=' + encodeURIComponent(c)
+    + '&entry.932558840='  + encodeURIComponent(document.getElementById('telefono').value)
+    + '&entry.1904403771=' + encodeURIComponent(f)
+    + '&entry.510486102='  + encodeURIComponent(document.getElementById('direccion').value)
+    + '&entry.1197174929=' + encodeURIComponent(t)
+    + '&entry.1947994864=' + encodeURIComponent(nv)
+    + '&entry.745026335='  + encodeURIComponent(pr)
+    + '&entry.1585907571=' + encodeURIComponent(tr)
+    + '&entry.1205137732=' + encodeURIComponent(pd)
+    + '&entry.881515155='  + encodeURIComponent(document.getElementById('recomendaciones').value);
 
+  plagas.forEach(function(p) { url += '&entry.423107858=' + encodeURIComponent(p); });
 
-    const fullUrl = baseUrl + "?" + params.toString();
-  document.getElementById("form-link").href = fullUrl;
-  document.getElementById("link-text").value = fullUrl;
-  document.getElementById("success").classList.add("show");
+  savedLink = url;
+  document.getElementById('linkBtn').href = url;
+  document.getElementById('overlay').classList.add('show');
 }
 
-function copyLink() {
-  const txt = document.getElementById('link-text');
-  txt.select();
-  document.execCommand('copy');
-  alert('Link copiado. Pégalo en el navegador.');
+function copiar() {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(savedLink).then(function() { alert('Link copiado. Pégalo en el navegador.'); });
+  } else {
+    window.prompt('Copia este link:', savedLink);
+  }
 }
 
-function nuevoReporte() {
-  document.getElementById('success').classList.remove('show');
-  document.querySelectorAll('input[type=text], input[type=email], input[type=tel], textarea').forEach(el => el.value = '');
-  document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
-  document.querySelectorAll('.plaga-item').forEach(el => { el.querySelector('input').checked = false; el.classList.remove('checked'); });
+function nuevo() {
+  document.getElementById('overlay').classList.remove('show');
+  document.querySelectorAll('input[type=text],input[type=email],input[type=tel],textarea').forEach(function(e){e.value='';});
+  document.querySelectorAll('select').forEach(function(e){e.selectedIndex=0;});
+  for(var i=1;i<=8;i++){document.getElementById('p'+i).classList.remove('on');document.getElementById('c'+i).textContent='';}
   clearSig();
   document.getElementById('fecha').valueAsDate = new Date();
-  document.getElementById('btn-enviar').disabled = false;
-  document.getElementById('btn-enviar').textContent = '📤 Enviar reporte';
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
-}
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 </script>
 </body>
 </html>
