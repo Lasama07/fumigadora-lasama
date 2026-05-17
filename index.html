@@ -356,28 +356,29 @@ async function enviarReporte() {
   btn.disabled = true;
   btn.textContent = '⏳ Enviando...';
 
-  const body = new URLSearchParams();
-  body.append(FIELD_IDS.nombre, nombre);
-  body.append(FIELD_IDS.correo, correo);
-  body.append(FIELD_IDS.telefono, document.getElementById('telefono').value);
-  body.append(FIELD_IDS.fecha, fecha);
-  body.append(FIELD_IDS.direccion, document.getElementById('direccion').value);
-  body.append(FIELD_IDS.tecnico, tecnico);
-  body.append(FIELD_IDS.plaga, plagasSeleccionadas.join(', '));
-  body.append(FIELD_IDS.nivel, nivel);
-  body.append(FIELD_IDS.estado, estado);
-  body.append(FIELD_IDS.problema, problema);
-  body.append(FIELD_IDS.tratamiento, tratamiento);
-  body.append(FIELD_IDS.productos, document.getElementById('productos').value);
-  body.append(FIELD_IDS.recomendaciones, document.getElementById('recomendaciones').value);
+  const baseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeD7FaCUr4fP9BomkQ52e5iHk0Uymh8CIQBGthRjjdGVYmZhA/viewform";
+  const params = new URLSearchParams();
+  params.append(FIELD_IDS.nombre, nombre);
+  params.append(FIELD_IDS.correo, correo);
+  params.append(FIELD_IDS.telefono, document.getElementById("telefono").value);
+  params.append(FIELD_IDS.fecha, fecha);
+  params.append(FIELD_IDS.direccion, document.getElementById("direccion").value);
+  params.append(FIELD_IDS.tecnico, tecnico);
+  plagasSeleccionadas.forEach(p => params.append(FIELD_IDS.plaga, p));
+  params.append(FIELD_IDS.nivel, nivel);
+  params.append(FIELD_IDS.problema, problema);
+  params.append(FIELD_IDS.tratamiento, tratamiento);
+  params.append(FIELD_IDS.productos, document.getElementById("productos").value);
+  params.append(FIELD_IDS.recomendaciones, document.getElementById("recomendaciones").value);
+  params.append("usp", "pp_url");
 
   try {
-    await fetch(FORM_URL, { method: 'POST', mode: 'no-cors', body });
-    document.getElementById('success').classList.add('show');
+    window.open(baseUrl + "?" + params.toString(), "_blank");
+    document.getElementById("success").classList.add("show");
   } catch(err) {
-    alert('Error al enviar. Verifica tu conexión e intenta de nuevo.');
+    alert("Error al abrir el formulario. Verifica tu conexion.");
     btn.disabled = false;
-    btn.textContent = '📤 Enviar reporte';
+    btn.textContent = "📤 Enviar reporte";
   }
 }
 
