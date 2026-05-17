@@ -277,8 +277,13 @@ document.getElementById('fecha').valueAsDate = new Date();
 
 // Checkboxes de plaga
 document.querySelectorAll('.plaga-item').forEach(item => {
-  item.addEventListener('change', () => {
-    item.classList.toggle('checked', item.querySelector('input').checked);
+  const cb = item.querySelector('input');
+  item.addEventListener('click', (e) => {
+    if (e.target !== cb) cb.checked = !cb.checked;
+    item.classList.toggle('checked', cb.checked);
+  });
+  cb.addEventListener('change', () => {
+    item.classList.toggle('checked', cb.checked);
   });
 });
 
