@@ -261,10 +261,11 @@
 </div>
 
 <div class="success-screen" id="success">
-  <div class="success-icon">✅</div>
-  <h2>¡Reporte enviado!</h2>
-  <p>El PDF fue enviado al correo del cliente automáticamente.</p>
-  <button class="btn-nuevo" onclick="nuevoReporte()">+ Nuevo reporte</button>
+  <div class="success-icon">📋</div>
+  <h2>¡Datos listos!</h2>
+  <p>Toca el botón para abrir el formulario con todo pre-llenado y envíalo.</p>
+  <a id="form-link" href="#" target="_blank" style="display:block;width:100%;padding:15px;background:#1D9E75;color:white;border:none;border-radius:10px;font-size:16px;font-weight:600;text-align:center;text-decoration:none;margin-bottom:12px;">📤 Abrir y enviar formulario</a>
+  <button class="btn-nuevo" onclick="nuevoReporte()" style="background:white;color:#1D9E75;border:2px solid #1D9E75;">+ Nuevo reporte</button>
 </div>
 
 <script>
@@ -371,7 +372,9 @@ async function enviarReporte() {
   params.append("usp", "pp_url");
 
 
-    window.location.href = baseUrl + "?" + params.toString();
+    const fullUrl = baseUrl + "?" + params.toString();
+  document.getElementById("form-link").href = fullUrl;
+  document.getElementById("success").classList.add("show");
 }
 
 function nuevoReporte() {
