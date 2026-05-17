@@ -346,8 +346,6 @@ async function enviarReporte() {
   if (!nombre || !correo || !fecha || !tecnico || !nivel || !estado || !problema || !tratamiento) {
     alert('Por favor completa todos los campos obligatorios (*)');
     return;
-  }
-
   const plagasSeleccionadas = [...document.querySelectorAll('.plaga-item input:checked')].map(c => c.value);
   const otraPlaga = document.getElementById('otras-plagas').value.trim();
   if (otraPlaga) plagasSeleccionadas.push(otraPlaga);
@@ -372,14 +370,8 @@ async function enviarReporte() {
   params.append(FIELD_IDS.recomendaciones, document.getElementById("recomendaciones").value);
   params.append("usp", "pp_url");
 
-  try {
-    window.open(baseUrl + "?" + params.toString(), "_blank");
-    document.getElementById("success").classList.add("show");
-  } catch(err) {
-    alert("Error al abrir el formulario. Verifica tu conexion.");
-    btn.disabled = false;
-    btn.textContent = "📤 Enviar reporte";
-  }
+
+    window.location.href = baseUrl + "?" + params.toString();
 }
 
 function nuevoReporte() {
