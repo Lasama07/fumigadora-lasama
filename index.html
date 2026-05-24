@@ -11,38 +11,70 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #222; }
-    .app-header { background: #1D9E75; color: white; padding: 16px 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
-    .app-header h1 { font-size: 17px; font-weight: 600; }
-    .app-header p { font-size: 12px; opacity: 0.85; margin-top: 2px; }
+
+    .home { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 32px 24px; background: linear-gradient(160deg, #1D9E75 0%, #0d6e51 100%); }
+    .home-logo { font-size: 56px; margin-bottom: 12px; }
+    .home h1 { font-size: 24px; font-weight: 700; color: white; text-align: center; margin-bottom: 4px; }
+    .home p { font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 40px; text-align: center; }
+    .home-btn { width: 100%; max-width: 320px; padding: 18px; border-radius: 14px; border: none; font-size: 16px; font-weight: 600; cursor: pointer; margin-bottom: 14px; display: flex; align-items: center; gap: 14px; text-align: left; }
+    .home-btn-reporte { background: white; color: #1D9E75; }
+    .home-btn-cotizacion { background: rgba(255,255,255,0.15); color: white; border: 2px solid rgba(255,255,255,0.4) !important; }
+    .home-btn-icon { font-size: 28px; }
+    .home-btn-text strong { display: block; font-size: 16px; }
+    .home-btn-text span { font-size: 12px; opacity: 0.7; }
+
+    .page { display: none; min-height: 100vh; }
+    .page.active { display: block; }
+
+    .app-header { background: #1D9E75; color: white; padding: 14px 16px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    .back-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 34px; height: 34px; border-radius: 50%; font-size: 18px; cursor: pointer; flex-shrink: 0; }
+    .app-header h1 { font-size: 16px; font-weight: 600; }
+    .app-header p { font-size: 11px; opacity: 0.85; }
+
     .form-body { padding: 16px; max-width: 600px; margin: 0 auto; padding-bottom: 100px; }
     .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
     .card-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #1D9E75; margin-bottom: 14px; }
     .field { margin-bottom: 14px; }
     .field:last-child { margin-bottom: 0; }
     label { display: block; font-size: 12px; color: #666; margin-bottom: 5px; font-weight: 500; }
-    input[type=text], input[type=email], input[type=tel], input[type=date], textarea, select {
+    input[type=text], input[type=email], input[type=tel], input[type=date], input[type=number], textarea, select {
       width: 100%; padding: 11px 13px; border: 1.5px solid #e0e0e0; border-radius: 8px;
       font-size: 15px; background: #fafafa; color: #222; -webkit-appearance: none;
     }
     input:focus, textarea:focus, select:focus { outline: none; border-color: #1D9E75; background: white; }
-    textarea { min-height: 90px; resize: vertical; line-height: 1.5; }
+    textarea { min-height: 80px; resize: vertical; line-height: 1.5; }
     .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
     .plaga-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .plaga-btn {
-      padding: 10px 12px; border: 1.5px solid #e0e0e0; border-radius: 8px;
-      font-size: 14px; cursor: pointer; background: #fafafa;
-      display: flex; align-items: center; gap: 8px;
-      -webkit-tap-highlight-color: transparent;
-    }
+    .plaga-btn { padding: 10px 12px; border: 1.5px solid #e0e0e0; border-radius: 8px; font-size: 14px; cursor: pointer; background: #fafafa; display: flex; align-items: center; gap: 8px; -webkit-tap-highlight-color: transparent; }
     .plaga-btn.on { border-color: #1D9E75; background: #f0faf6; color: #1D9E75; font-weight: 600; }
     .chk { width: 18px; height: 18px; border: 2px solid #ccc; border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; }
     .plaga-btn.on .chk { background: #1D9E75; border-color: #1D9E75; color: white; }
+
+    /* SERVICIOS COTIZACIÓN */
+    .servicio-item { border: 1.5px solid #e0e0e0; border-radius: 10px; padding: 12px; margin-bottom: 10px; background: #fafafa; }
+    .servicio-item.on { border-color: #1D9E75; background: #f0faf6; }
+    .servicio-header { display: flex; align-items: center; gap: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .servicio-chk { width: 22px; height: 22px; border: 2px solid #ccc; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .servicio-item.on .servicio-chk { background: #1D9E75; border-color: #1D9E75; color: white; }
+    .servicio-nombre { font-size: 14px; font-weight: 500; flex: 1; }
+    .servicio-item.on .servicio-nombre { color: #1D9E75; }
+    .servicio-precio-wrap { margin-top: 10px; display: none; }
+    .servicio-item.on .servicio-precio-wrap { display: block; }
+    .servicio-precio-wrap label { font-size: 11px; color: #888; margin-bottom: 4px; }
+    .servicio-precio-wrap input { background: white; }
+
+    .total-box { background: #f0faf6; border: 1.5px solid #1D9E75; border-radius: 8px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+    .total-box span { font-size: 13px; color: #555; }
+    .total-box strong { font-size: 20px; color: #1D9E75; }
+
     .sig-wrap { border: 1.5px solid #e0e0e0; border-radius: 8px; overflow: hidden; background: #fafafa; }
     .sig-canvas { display: block; width: 100%; touch-action: none; }
     .btn-outline { width: 100%; padding: 10px; border: 1.5px solid #e0e0e0; border-radius: 8px; background: white; font-size: 14px; cursor: pointer; color: #555; margin-top: 8px; }
+
     .submit-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 12px 16px; background: white; box-shadow: 0 -2px 12px rgba(0,0,0,0.1); }
     .btn-submit { width: 100%; padding: 15px; background: #1D9E75; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; }
-    .btn-submit:disabled { background: #aaa; }
+
     .overlay { display: none; position: fixed; inset: 0; background: white; flex-direction: column; align-items: center; justify-content: center; padding: 28px; text-align: center; z-index: 300; }
     .overlay.show { display: flex; }
     .overlay h2 { font-size: 22px; color: #1D9E75; margin: 12px 0 8px; }
@@ -55,183 +87,376 @@
 </head>
 <body>
 
-<div class="app-header">
-  <h1>🦟 Fumigadora Lasama</h1>
-  <p>Reporte de Visita Técnica</p>
+<!-- PANTALLA DE INICIO -->
+<div class="home" id="home">
+  <div class="home-logo">🦟</div>
+  <h1>Fumigadora Lasama</h1>
+  <p>Selecciona una opción</p>
+  <button class="home-btn home-btn-reporte" onclick="showPage('reporte')">
+    <span class="home-btn-icon">📋</span>
+    <span class="home-btn-text"><strong>Reporte de Visita</strong><span>Generar reporte técnico</span></span>
+  </button>
+  <button class="home-btn home-btn-cotizacion" onclick="showPage('cotizacion')">
+    <span class="home-btn-icon">💰</span>
+    <span class="home-btn-text"><strong>Cotización</strong><span>Crear cotización para cliente</span></span>
+  </button>
 </div>
 
-<div class="form-body">
-  <div class="card">
-    <div class="card-title">👤 Datos del cliente</div>
-    <div class="field"><label>Nombre del cliente <span class="required">*</span></label><input type="text" id="nombre" placeholder="Ej. Juan Pérez"></div>
-    <div class="field"><label>Correo electrónico <span class="required">*</span></label><input type="email" id="correo" placeholder="cliente@correo.com"></div>
-    <div class="row2">
-      <div class="field"><label>Teléfono</label><input type="tel" id="telefono" placeholder="+507 6000-0000"></div>
-      <div class="field"><label>Fecha de visita <span class="required">*</span></label><input type="date" id="fecha"></div>
-    </div>
-    <div class="field"><label>Dirección</label><input type="text" id="direccion" placeholder="Calle, número, barrio"></div>
-    <div class="field"><label>Técnico responsable <span class="required">*</span></label><input type="text" id="tecnico" placeholder="Nombre del técnico"></div>
+<!-- PÁGINA REPORTE -->
+<div class="page" id="reporte">
+  <div class="app-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <div><h1>Reporte de Visita Técnica</h1><p>Fumigadora Lasama</p></div>
   </div>
-
-  <div class="card">
-    <div class="card-title">🐛 Tipo de plaga — toca para seleccionar</div>
-    <div class="plaga-grid">
-      <div class="plaga-btn" id="p1" data-v="CUCARACHA" onclick="tp('p1')"><div class="chk" id="c1"></div>Cucarachas</div>
-      <div class="plaga-btn" id="p2" data-v="RATONES" onclick="tp('p2')"><div class="chk" id="c2"></div>Ratas/Ratones</div>
-      <div class="plaga-btn" id="p3" data-v="MOSQUITOS" onclick="tp('p3')"><div class="chk" id="c3"></div>Mosquitos</div>
-      <div class="plaga-btn" id="p4" data-v="HORMIGAS" onclick="tp('p4')"><div class="chk" id="c4"></div>Hormigas</div>
-      <div class="plaga-btn" id="p5" data-v="GARRAPATAS" onclick="tp('p5')"><div class="chk" id="c5"></div>Garrapatas</div>
-      <div class="plaga-btn" id="p6" data-v="TERMITAS O COMEJEN" onclick="tp('p6')"><div class="chk" id="c6"></div>Termitas</div>
-      <div class="plaga-btn" id="p7" data-v="MOSCAS" onclick="tp('p7')"><div class="chk" id="c7"></div>Moscas</div>
-      <div class="plaga-btn" id="p8" data-v="OTROS" onclick="tp('p8')"><div class="chk" id="c8"></div>Otros</div>
-    </div>
-    <div class="field" style="margin-top:10px"><label>Otras plagas</label><input type="text" id="otras" placeholder="Especifica si aplica"></div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">📋 Servicio realizado</div>
-    <div class="row2">
-      <div class="field">
-        <label>Nivel de infestación <span class="required">*</span></label>
-        <select id="nivel">
-          <option value="">Seleccionar...</option>
-          <option>LEVE</option>
-          <option>MODERADO</option>
-          <option>SEVERE</option>
-          <option>CRITICO INFESTACION ALTA</option>
-        </select>
+  <div class="form-body">
+    <div class="card">
+      <div class="card-title">👤 Datos del cliente</div>
+      <div class="field"><label>Nombre del cliente <span class="required">*</span></label><input type="text" id="r-nombre" placeholder="Ej. Juan Pérez"></div>
+      <div class="field"><label>Correo electrónico <span class="required">*</span></label><input type="email" id="r-correo" placeholder="cliente@correo.com"></div>
+      <div class="row2">
+        <div class="field"><label>Teléfono</label><input type="tel" id="r-telefono" placeholder="+507 6000-0000"></div>
+        <div class="field"><label>Fecha <span class="required">*</span></label><input type="date" id="r-fecha"></div>
       </div>
-      <div class="field">
-        <label>Estado</label>
-        <select id="estado">
-          <option value="">Seleccionar...</option>
-          <option>Completado</option>
-          <option>Pendiente seguimiento</option>
-          <option>Requiere segunda visita</option>
-        </select>
+      <div class="field"><label>Dirección</label><input type="text" id="r-direccion" placeholder="Calle, número, barrio"></div>
+      <div class="field"><label>Técnico responsable <span class="required">*</span></label><input type="text" id="r-tecnico" placeholder="Nombre del técnico"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">🐛 Tipo de plaga</div>
+      <div class="plaga-grid">
+        <div class="plaga-btn" id="p1" data-v="CUCARACHA" onclick="tp('p1','rc1')"><div class="chk" id="rc1"></div>Cucarachas</div>
+        <div class="plaga-btn" id="p2" data-v="RATONES" onclick="tp('p2','rc2')"><div class="chk" id="rc2"></div>Ratas/Ratones</div>
+        <div class="plaga-btn" id="p3" data-v="MOSQUITOS" onclick="tp('p3','rc3')"><div class="chk" id="rc3"></div>Mosquitos</div>
+        <div class="plaga-btn" id="p4" data-v="HORMIGAS" onclick="tp('p4','rc4')"><div class="chk" id="rc4"></div>Hormigas</div>
+        <div class="plaga-btn" id="p5" data-v="GARRAPATAS" onclick="tp('p5','rc5')"><div class="chk" id="rc5"></div>Garrapatas</div>
+        <div class="plaga-btn" id="p6" data-v="TERMITAS O COMEJEN" onclick="tp('p6','rc6')"><div class="chk" id="rc6"></div>Termitas</div>
+        <div class="plaga-btn" id="p7" data-v="MOSCAS" onclick="tp('p7','rc7')"><div class="chk" id="rc7"></div>Moscas</div>
+        <div class="plaga-btn" id="p8" data-v="OTROS" onclick="tp('p8','rc8')"><div class="chk" id="rc8"></div>Otros</div>
+      </div>
+      <div class="field" style="margin-top:10px"><label>Otras plagas</label><input type="text" id="r-otras" placeholder="Especifica si aplica"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📋 Servicio realizado</div>
+      <div class="row2">
+        <div class="field">
+          <label>Nivel de infestación <span class="required">*</span></label>
+          <select id="r-nivel">
+            <option value="">Seleccionar...</option>
+            <option>LEVE</option><option>MODERADO</option><option>SEVERE</option><option>CRITICO INFESTACION ALTA</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Estado</label>
+          <select id="r-estado">
+            <option value="">Seleccionar...</option>
+            <option>Completado</option><option>Pendiente seguimiento</option><option>Requiere segunda visita</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Descripción del problema <span class="required">*</span></label><textarea id="r-problema" placeholder="Describe el nivel de infestación, áreas afectadas..."></textarea></div>
+      <div class="field"><label>Tratamiento aplicado <span class="required">*</span></label><textarea id="r-tratamiento" placeholder="Método de aplicación, áreas tratadas..."></textarea></div>
+      <div class="field"><label>Productos usados <span class="required">*</span></label><textarea id="r-productos" placeholder="Lista los productos aplicados..." style="min-height:60px;"></textarea></div>
+      <div class="field"><label>Recomendaciones</label><textarea id="r-recomendaciones" placeholder="Medidas preventivas..." style="min-height:60px;"></textarea></div>
+    </div>
+    <div class="card">
+      <div class="card-title">✍️ Firma del cliente</div>
+      <p style="font-size:13px;color:#888;margin-bottom:10px;">Firma con el dedo en el recuadro</p>
+      <div class="sig-wrap"><canvas class="sig-canvas" id="sig" height="150"></canvas></div>
+      <button class="btn-outline" onclick="clearSig()">🗑 Borrar firma</button>
+    </div>
+  </div>
+  <div class="submit-bar"><button class="btn-submit" onclick="enviarReporte()">📤 Enviar reporte</button></div>
+</div>
+
+<!-- PÁGINA COTIZACIÓN -->
+<div class="page" id="cotizacion">
+  <div class="app-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <div><h1>Cotización</h1><p>Fumigadora Lasama</p></div>
+  </div>
+  <div class="form-body">
+    <div class="card">
+      <div class="card-title">👤 Datos del cliente</div>
+      <div class="field"><label>Nombre del cliente <span class="required">*</span></label><input type="text" id="c-nombre" placeholder="Ej. Juan Pérez"></div>
+      <div class="field"><label>Correo electrónico <span class="required">*</span></label><input type="email" id="c-correo" placeholder="cliente@correo.com"></div>
+      <div class="row2">
+        <div class="field"><label>Teléfono <span class="required">*</span></label><input type="tel" id="c-telefono" placeholder="+507 6000-0000"></div>
+        <div class="field"><label>Fecha <span class="required">*</span></label><input type="date" id="c-fecha"></div>
+      </div>
+      <div class="field"><label>Dirección</label><input type="text" id="c-direccion" placeholder="Dirección del servicio"></div>
+      <div class="field"><label>Técnico / Vendedor <span class="required">*</span></label><input type="text" id="c-tecnico" placeholder="Nombre"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🛠 Servicios — toca para seleccionar y escribe el precio</div>
+
+      <div class="servicio-item" id="s1">
+        <div class="servicio-header" onclick="toggleServicio('s1')">
+          <div class="servicio-chk" id="sc1"></div>
+          <span class="servicio-nombre">Fumigación Básica</span>
+        </div>
+        <div class="servicio-precio-wrap">
+          <label>Precio (USD)</label>
+          <input type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()">
+        </div>
+      </div>
+
+      <div class="servicio-item" id="s2">
+        <div class="servicio-header" onclick="toggleServicio('s2')">
+          <div class="servicio-chk" id="sc2"></div>
+          <span class="servicio-nombre">Fumigación General</span>
+        </div>
+        <div class="servicio-precio-wrap">
+          <label>Precio (USD)</label>
+          <input type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()">
+        </div>
+      </div>
+
+      <div class="servicio-item" id="s3">
+        <div class="servicio-header" onclick="toggleServicio('s3')">
+          <div class="servicio-chk" id="sc3"></div>
+          <span class="servicio-nombre">Fumigación Especial</span>
+        </div>
+        <div class="servicio-precio-wrap">
+          <label>Precio (USD)</label>
+          <input type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()">
+        </div>
+      </div>
+
+      <div class="servicio-item" id="s4">
+        <div class="servicio-header" onclick="toggleServicio('s4')">
+          <div class="servicio-chk" id="sc4"></div>
+          <span class="servicio-nombre">Fumigación Roedores</span>
+        </div>
+        <div class="servicio-precio-wrap">
+          <label>Precio (USD)</label>
+          <input type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()">
+        </div>
+      </div>
+
+      <div class="servicio-item" id="s5">
+        <div class="servicio-header" onclick="toggleServicio('s5')">
+          <div class="servicio-chk" id="sc5"></div>
+          <span class="servicio-nombre">Cajas Negras Cebaderas</span>
+        </div>
+        <div class="servicio-precio-wrap">
+          <label>Precio (USD)</label>
+          <input type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()">
+        </div>
+      </div>
+
+      <div class="servicio-item" id="s6">
+        <div class="servicio-header" onclick="toggleServicio('s6')">
+          <div class="servicio-chk" id="sc6"></div>
+          <span class="servicio-nombre">Fumigación Termonebulización</span>
+        </div>
+        <div class="servicio-precio-wrap">
+          <label>Precio (USD)</label>
+          <input type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()">
+        </div>
+      </div>
+
+      <div class="total-box">
+        <span>Total estimado</span>
+        <strong id="total-display">$0.00</strong>
       </div>
     </div>
-    <div class="field"><label>Descripción del problema <span class="required">*</span></label><textarea id="problema" placeholder="Describe el nivel de infestación, áreas afectadas..."></textarea></div>
-    <div class="field"><label>Tratamiento aplicado <span class="required">*</span></label><textarea id="tratamiento" placeholder="Método de aplicación, áreas tratadas..."></textarea></div>
-    <div class="field"><label>Productos usados <span class="required">*</span></label><textarea id="productos" placeholder="Lista los productos aplicados..." style="min-height:60px;"></textarea></div>
-    <div class="field"><label>Recomendaciones</label><textarea id="recomendaciones" placeholder="Medidas preventivas..." style="min-height:60px;"></textarea></div>
-  </div>
 
-  <div class="card">
-    <div class="card-title">✍️ Firma del cliente</div>
-    <p style="font-size:13px;color:#888;margin-bottom:10px;">Firma con el dedo en el recuadro</p>
-    <div class="sig-wrap"><canvas class="sig-canvas" id="sig" height="150"></canvas></div>
-    <button class="btn-outline" onclick="clearSig()">🗑 Borrar firma</button>
+    <div class="card">
+      <div class="card-title">📝 Notas adicionales</div>
+      <div class="field"><label>Observaciones / Condiciones</label><textarea id="c-notas" placeholder="Condiciones del servicio, garantías, términos..." style="min-height:80px;"></textarea></div>
+    </div>
   </div>
+  <div class="submit-bar"><button class="btn-submit" onclick="enviarCotizacion()">📤 Enviar cotización</button></div>
 </div>
 
-<div class="submit-bar">
-  <button class="btn-submit" id="btnEnviar" onclick="enviar()">📤 Enviar reporte</button>
-</div>
-
-<div class="overlay" id="overlay">
+<!-- OVERLAY REPORTE -->
+<div class="overlay" id="overlay-reporte">
   <div style="font-size:56px">📋</div>
   <h2>¡Datos listos!</h2>
   <p>Toca el botón verde para abrir el formulario con todo pre-llenado y presiona <strong>Enviar</strong> para que el PDF llegue al cliente.</p>
-  <a id="linkBtn" href="#" class="btn-green">📤 ABRIR Y ENVIAR FORMULARIO</a>
-  <button class="btn-gray" onclick="copiar()">📋 Copiar link (si no abre)</button>
-  <button class="btn-outline2" onclick="nuevo()">+ Nuevo reporte</button>
+  <a id="reporte-link" href="#" class="btn-green">📤 ABRIR Y ENVIAR FORMULARIO</a>
+  <button class="btn-gray" onclick="copiarLink('reporte')">📋 Copiar link (si no abre)</button>
+  <button class="btn-outline2" onclick="resetReporte()">+ Nuevo reporte</button>
+</div>
+
+<!-- OVERLAY COTIZACIÓN -->
+<div class="overlay" id="overlay-cotizacion">
+  <div style="font-size:56px">💰</div>
+  <h2>¡Cotización lista!</h2>
+  <p>Toca el botón verde para abrir el formulario con todo pre-llenado y presiona <strong>Enviar</strong> para guardar en la base de datos.</p>
+  <a id="cotizacion-link" href="#" class="btn-green">📤 ABRIR Y ENVIAR COTIZACIÓN</a>
+  <button class="btn-gray" onclick="copiarLink('cotizacion')">📋 Copiar link (si no abre)</button>
+  <button class="btn-outline2" onclick="resetCotizacion()">+ Nueva cotización</button>
 </div>
 
 <script>
-document.getElementById('fecha').valueAsDate = new Date();
+document.getElementById('r-fecha').valueAsDate = new Date();
+document.getElementById('c-fecha').valueAsDate = new Date();
 
-var savedLink = "";
+var savedReporteLink = "";
+var savedCotizacionLink = "";
 
-function tp(id) {
+function showPage(page) {
+  document.getElementById('home').style.display = 'none';
+  document.getElementById('reporte').classList.remove('active');
+  document.getElementById('cotizacion').classList.remove('active');
+  document.getElementById(page).classList.add('active');
+}
+function goHome() {
+  document.getElementById('home').style.display = 'flex';
+  document.getElementById('reporte').classList.remove('active');
+  document.getElementById('cotizacion').classList.remove('active');
+}
+
+function tp(id, chkId) {
   var el = document.getElementById(id);
-  var chk = document.getElementById('c' + id.replace('p',''));
+  var chk = document.getElementById(chkId);
   var on = el.classList.toggle('on');
   chk.textContent = on ? '✓' : '';
+}
+
+function toggleServicio(id) {
+  var el = document.getElementById(id);
+  var num = id.replace('s','');
+  var chk = document.getElementById('sc'+num);
+  var on = el.classList.toggle('on');
+  chk.textContent = on ? '✓' : '';
+  calcTotal();
+}
+
+function calcTotal() {
+  var total = 0;
+  for(var i=1;i<=6;i++){
+    var el = document.getElementById('s'+i);
+    if(el.classList.contains('on')){
+      var inp = el.querySelector('input[type=number]');
+      total += parseFloat(inp.value)||0;
+    }
+  }
+  document.getElementById('total-display').textContent = '$'+total.toFixed(2);
 }
 
 var canvas = document.getElementById('sig');
 var ctx = canvas.getContext('2d');
 var drawing = false;
-setTimeout(function() {
-  var r = window.devicePixelRatio || 1;
-  var w = canvas.parentElement.getBoundingClientRect().width;
-  canvas.width = w * r; canvas.height = 150 * r;
-  canvas.style.width = w + 'px'; canvas.style.height = '150px';
-  ctx.scale(r, r); ctx.strokeStyle = '#222'; ctx.lineWidth = 2.5; ctx.lineCap = 'round';
-}, 200);
-function gp(e) { var r = canvas.getBoundingClientRect(); var s = e.touches ? e.touches[0] : e; return {x: s.clientX - r.left, y: s.clientY - r.top}; }
-canvas.addEventListener('mousedown', function(e) { drawing=true; var p=gp(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); });
-canvas.addEventListener('mousemove', function(e) { if(!drawing) return; var p=gp(e); ctx.lineTo(p.x,p.y); ctx.stroke(); });
-canvas.addEventListener('mouseup', function() { drawing=false; });
-canvas.addEventListener('touchstart', function(e) { e.preventDefault(); drawing=true; var p=gp(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); }, {passive:false});
-canvas.addEventListener('touchmove', function(e) { e.preventDefault(); if(!drawing) return; var p=gp(e); ctx.lineTo(p.x,p.y); ctx.stroke(); }, {passive:false});
-canvas.addEventListener('touchend', function() { drawing=false; });
-function clearSig() { ctx.clearRect(0,0,canvas.width,canvas.height); }
+setTimeout(function(){
+  var r=window.devicePixelRatio||1;
+  var w=canvas.parentElement.getBoundingClientRect().width;
+  canvas.width=w*r; canvas.height=150*r;
+  canvas.style.width=w+'px'; canvas.style.height='150px';
+  ctx.scale(r,r); ctx.strokeStyle='#222'; ctx.lineWidth=2.5; ctx.lineCap='round';
+},300);
+function gp(e){var r=canvas.getBoundingClientRect();var s=e.touches?e.touches[0]:e;return{x:s.clientX-r.left,y:s.clientY-r.top};}
+canvas.addEventListener('mousedown',function(e){drawing=true;var p=gp(e);ctx.beginPath();ctx.moveTo(p.x,p.y);});
+canvas.addEventListener('mousemove',function(e){if(!drawing)return;var p=gp(e);ctx.lineTo(p.x,p.y);ctx.stroke();});
+canvas.addEventListener('mouseup',function(){drawing=false;});
+canvas.addEventListener('touchstart',function(e){e.preventDefault();drawing=true;var p=gp(e);ctx.beginPath();ctx.moveTo(p.x,p.y);},{passive:false});
+canvas.addEventListener('touchmove',function(e){e.preventDefault();if(!drawing)return;var p=gp(e);ctx.lineTo(p.x,p.y);ctx.stroke();},{passive:false});
+canvas.addEventListener('touchend',function(){drawing=false;});
+function clearSig(){ctx.clearRect(0,0,canvas.width,canvas.height);}
 
-function enviar() {
-  var n = document.getElementById('nombre').value.trim();
-  var c = document.getElementById('correo').value.trim();
-  var f = document.getElementById('fecha').value;
-  var t = document.getElementById('tecnico').value.trim();
-  var nv = document.getElementById('nivel').value;
-  var pr = document.getElementById('problema').value.trim();
-  var tr = document.getElementById('tratamiento').value.trim();
-  var pd = document.getElementById('productos').value.trim();
-
-  if (!n||!c||!f||!t||!nv||!pr||!tr||!pd) {
-    alert('Completa todos los campos obligatorios (*)');
-    return;
-  }
-
-  var plagas = [];
-  for (var i=1; i<=8; i++) {
-    var el = document.getElementById('p'+i);
-    if (el.classList.contains('on')) plagas.push(el.getAttribute('data-v'));
-  }
-  var otra = document.getElementById('otras').value.trim();
-  if (otra) plagas.push(otra);
-
-  var base = 'https://docs.google.com/forms/d/e/1FAIpQLSeD7FaCUr4fP9BomkQ52e5iHk0Uymh8CIQBGthRjjdGVYmZhA/viewform?usp=pp_url';
-  var url = base
-    + '&entry.1182326576=' + encodeURIComponent(n)
-    + '&entry.1726102371=' + encodeURIComponent(c)
-    + '&entry.932558840='  + encodeURIComponent(document.getElementById('telefono').value)
-    + '&entry.1904403771=' + encodeURIComponent(f)
-    + '&entry.510486102='  + encodeURIComponent(document.getElementById('direccion').value)
-    + '&entry.1197174929=' + encodeURIComponent(t)
-    + '&entry.1947994864=' + encodeURIComponent(nv)
-    + '&entry.745026335='  + encodeURIComponent(pr)
-    + '&entry.1585907571=' + encodeURIComponent(tr)
-    + '&entry.1205137732=' + encodeURIComponent(pd)
-    + '&entry.881515155='  + encodeURIComponent(document.getElementById('recomendaciones').value);
-
-  plagas.forEach(function(p) { url += '&entry.423107858=' + encodeURIComponent(p); });
-
-  savedLink = url;
-  document.getElementById('linkBtn').href = url;
-  document.getElementById('overlay').classList.add('show');
+function enviarReporte() {
+  var n=document.getElementById('r-nombre').value.trim();
+  var c=document.getElementById('r-correo').value.trim();
+  var f=document.getElementById('r-fecha').value;
+  var t=document.getElementById('r-tecnico').value.trim();
+  var nv=document.getElementById('r-nivel').value;
+  var pr=document.getElementById('r-problema').value.trim();
+  var tr=document.getElementById('r-tratamiento').value.trim();
+  var pd=document.getElementById('r-productos').value.trim();
+  if(!n||!c||!f||!t||!nv||!pr||!tr||!pd){alert('Completa todos los campos obligatorios (*)');return;}
+  var plagas=[];
+  for(var i=1;i<=8;i++){var el=document.getElementById('p'+i);if(el.classList.contains('on'))plagas.push(el.getAttribute('data-v'));}
+  var otra=document.getElementById('r-otras').value.trim();
+  if(otra)plagas.push(otra);
+  var url='https://docs.google.com/forms/d/e/1FAIpQLSeD7FaCUr4fP9BomkQ52e5iHk0Uymh8CIQBGthRjjdGVYmZhA/viewform?usp=pp_url'
+    +'&entry.1182326576='+encodeURIComponent(n)
+    +'&entry.1726102371='+encodeURIComponent(c)
+    +'&entry.932558840='+encodeURIComponent(document.getElementById('r-telefono').value)
+    +'&entry.1904403771='+encodeURIComponent(f)
+    +'&entry.510486102='+encodeURIComponent(document.getElementById('r-direccion').value)
+    +'&entry.1197174929='+encodeURIComponent(t)
+    +'&entry.1947994864='+encodeURIComponent(nv)
+    +'&entry.745026335='+encodeURIComponent(pr)
+    +'&entry.1585907571='+encodeURIComponent(tr)
+    +'&entry.1205137732='+encodeURIComponent(pd)
+    +'&entry.881515155='+encodeURIComponent(document.getElementById('r-recomendaciones').value);
+  plagas.forEach(function(p){url+='&entry.423107858='+encodeURIComponent(p);});
+  savedReporteLink=url;
+  document.getElementById('reporte-link').href=url;
+  document.getElementById('overlay-reporte').classList.add('show');
 }
 
-function copiar() {
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(savedLink).then(function() { alert('Link copiado. Pégalo en el navegador.'); });
-  } else {
-    window.prompt('Copia este link:', savedLink);
+function enviarCotizacion() {
+  var n=document.getElementById('c-nombre').value.trim();
+  var c=document.getElementById('c-correo').value.trim();
+  var tel=document.getElementById('c-telefono').value.trim();
+  var f=document.getElementById('c-fecha').value;
+  var t=document.getElementById('c-tecnico').value.trim();
+  if(!n||!c||!tel||!f||!t){alert('Completa todos los campos obligatorios (*)');return;}
+
+  var serviciosSeleccionados=[];
+  var nombresServicios=['FUMIGACION BASICA','FUMIGACION GENERAL','FUMIGACION ESPECIAL','FUMIGACION ROEDORES','CAJA NEGRAS CEBADERAS','FUMIGACION TERMONEBULIZACION'];
+  var total=0;
+  for(var i=1;i<=6;i++){
+    var el=document.getElementById('s'+i);
+    if(el.classList.contains('on')){
+      var precio=parseFloat(el.querySelector('input[type=number]').value)||0;
+      serviciosSeleccionados.push(nombresServicios[i-1]+' ($'+precio.toFixed(2)+')');
+      total+=precio;
+    }
   }
+  if(serviciosSeleccionados.length===0){alert('Selecciona al menos un servicio');return;}
+
+  var serviciosTexto=serviciosSeleccionados.join(', ');
+  var totalTexto='$'+total.toFixed(2);
+
+  var url='https://docs.google.com/forms/d/e/1FAIpQLSfCjRiYyWtQxWtj2nEIl0EXUZN1KuW088sz73UbguGg-TKoDg/viewform?usp=pp_url'
+    +'&entry.2111145699='+encodeURIComponent(n)
+    +'&entry.1739150636='+encodeURIComponent(c)
+    +'&entry.1684546037='+encodeURIComponent(tel)
+    +'&entry.1100829944='+encodeURIComponent(document.getElementById('c-direccion').value)
+    +'&entry.1318496960='+encodeURIComponent(f)
+    +'&entry.1587877371='+encodeURIComponent(t)
+    +'&entry.1704185153='+encodeURIComponent(serviciosTexto)
+    +'&entry.1004140771='+encodeURIComponent(totalTexto)
+    +'&entry.341823734='+encodeURIComponent(document.getElementById('c-notas').value);
+
+  savedCotizacionLink=url;
+  document.getElementById('cotizacion-link').href=url;
+  document.getElementById('overlay-cotizacion').classList.add('show');
 }
 
-function nuevo() {
-  document.getElementById('overlay').classList.remove('show');
-  document.querySelectorAll('input[type=text],input[type=email],input[type=tel],textarea').forEach(function(e){e.value='';});
-  document.querySelectorAll('select').forEach(function(e){e.selectedIndex=0;});
-  for(var i=1;i<=8;i++){document.getElementById('p'+i).classList.remove('on');document.getElementById('c'+i).textContent='';}
+function copiarLink(tipo) {
+  var link=tipo==='reporte'?savedReporteLink:savedCotizacionLink;
+  if(navigator.clipboard){navigator.clipboard.writeText(link).then(function(){alert('Link copiado.');});}
+  else{window.prompt('Copia este link:',link);}
+}
+
+function resetReporte() {
+  document.getElementById('overlay-reporte').classList.remove('show');
+  document.querySelectorAll('#reporte input[type=text],#reporte input[type=email],#reporte input[type=tel],#reporte textarea').forEach(function(e){e.value='';});
+  document.querySelectorAll('#reporte select').forEach(function(e){e.selectedIndex=0;});
+  for(var i=1;i<=8;i++){document.getElementById('p'+i).classList.remove('on');document.getElementById('rc'+i).textContent='';}
   clearSig();
-  document.getElementById('fecha').valueAsDate = new Date();
+  document.getElementById('r-fecha').valueAsDate=new Date();
   window.scrollTo(0,0);
 }
 
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+function resetCotizacion() {
+  document.getElementById('overlay-cotizacion').classList.remove('show');
+  document.querySelectorAll('#cotizacion input[type=text],#cotizacion input[type=email],#cotizacion input[type=tel],#cotizacion textarea').forEach(function(e){e.value='';});
+  document.querySelectorAll('#cotizacion input[type=number]').forEach(function(e){e.value='';});
+  for(var i=1;i<=6;i++){
+    document.getElementById('s'+i).classList.remove('on');
+    document.getElementById('sc'+i).textContent='';
+  }
+  calcTotal();
+  document.getElementById('c-fecha').valueAsDate=new Date();
+  window.scrollTo(0,0);
+}
+
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 </script>
 </body>
 </html>
